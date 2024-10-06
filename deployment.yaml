@@ -1,33 +1,32 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: myjavaapp-deployment
+  name: java-app-deployment
 spec:
-  replicas: 3
+  replicas: 2
   selector:
     matchLabels:
-      app: myjavaapp
+      app: java-app
   template:
     metadata:
       labels:
-        app: myjavaapp
+        app: java-app
     spec:
       containers:
-      - name: myjavaapp
-        image: 600735812827.dkr.ecr.us-west-1.amazonaws.com/javasession2:latest
+      - name: java-app
+        image: gcr.io/sustained-vine-436514-v7/java-app:latest
         ports:
         - containerPort: 8080
-
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: myjavaapp-service
+  name: java-app-service
 spec:
+  type: LoadBalancer
   selector:
-    app: myjavaapp
+    app: java-app
   ports:
-  - name: http
+  - protocol: TCP
     port: 80
     targetPort: 8080
-  type: LoadBalancer
